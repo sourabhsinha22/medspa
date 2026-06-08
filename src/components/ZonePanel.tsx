@@ -177,7 +177,7 @@ function ZoneCard({
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <div className="w-3 h-3 rounded-full flex-shrink-0 border"
               style={{ backgroundColor: colors.fill, borderColor: colors.stroke }} />
-            <span className="text-sm font-medium text-gray-800 truncate">{zone.name}</span>
+            <span className="text-sm font-medium text-gray-800 leading-tight">{zone.name}</span>
             {/* Override indicator */}
             {selected && !aiRecommended && (
               <span className="text-xs px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded-full flex-shrink-0">
@@ -204,7 +204,7 @@ function ZoneCard({
 
         <div className="mt-1.5 flex items-center gap-2">
           <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-rose-400 rounded-full" style={{ width: `${score.score}%` }} />
+            <div className="h-full bg-rose-400 rounded-full" style={{ width: `${Math.max(2, score.score)}%` }} />
           </div>
           <span className="text-xs text-gray-400 w-8 text-right">{Math.round(score.score)}</span>
         </div>

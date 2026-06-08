@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { fetchRecentSessions, getPhotoUrl } from "@/lib/db";
+import { INJECTION_ZONES } from "@/lib/zones";
 import Link from "next/link";
+
+const zoneNameMap = Object.fromEntries(INJECTION_ZONES.map((z) => [z.id, z.name]));
 
 type Session = Awaited<ReturnType<typeof fetchRecentSessions>>[number];
 
@@ -138,7 +141,7 @@ export default function SessionsPage() {
                     <div className="flex flex-wrap gap-1 mb-1">
                       {(s.selected_zone_ids as string[]).slice(0, 4).map((z: string) => (
                         <span key={z} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">
-                          {z.replace(/_/g, " ")}
+                          {zoneNameMap[z] ?? z.replace(/_/g, " ")}
                         </span>
                       ))}
                       {(s.selected_zone_ids as string[]).length > 4 && (

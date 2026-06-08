@@ -4,10 +4,11 @@ import { useState } from "react";
 
 interface ConsentScreenProps {
   selectedZoneCount: number;
+  selectedZoneNames?: string[];
   onConsent: () => void;
 }
 
-export default function ConsentScreen({ selectedZoneCount, onConsent }: ConsentScreenProps) {
+export default function ConsentScreen({ selectedZoneCount, selectedZoneNames = [], onConsent }: ConsentScreenProps) {
   const [agreed, setAgreed] = useState(false);
 
   return (
@@ -31,6 +32,15 @@ export default function ConsentScreen({ selectedZoneCount, onConsent }: ConsentS
           <strong>{selectedZoneCount} zone{selectedZoneCount !== 1 ? "s" : ""}</strong>. The visual
           map you are about to see is for educational and communication purposes only.
         </p>
+        {selectedZoneNames.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {selectedZoneNames.map((name) => (
+              <span key={name} className="text-xs px-2 py-1 bg-white border border-gray-200 rounded-full text-gray-600">
+                {name}
+              </span>
+            ))}
+          </div>
+        )}
         <p>
           <strong>Important:</strong> The areas highlighted and any dosage ranges shown are
           indicative suggestions based on facial analysis. They are not a guarantee of

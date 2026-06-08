@@ -120,7 +120,7 @@ export default function FaceCapture({ onCapture }: FaceCaptureProps) {
               WebkitMaskImage: "radial-gradient(ellipse 48% 60% at 50% 48%, transparent 99%, black 100%)",
             }} />
             <div
-              className="w-48 h-64 rounded-full"
+              className="w-[52%] aspect-[3/4] rounded-full"
               style={{
                 border: "3px solid rgba(255,255,255,0.9)",
                 boxShadow: "0 0 0 2px rgba(0,0,0,0.4), inset 0 0 0 2px rgba(0,0,0,0.2)",

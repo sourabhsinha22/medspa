@@ -5,6 +5,8 @@ import Link from "next/link";
 import { fetchRecentSessions, getPhotoUrl, createFollowUp, ZoneOutcome } from "@/lib/db";
 import { INJECTION_ZONES } from "@/lib/zones";
 
+const zoneNameMap = Object.fromEntries(INJECTION_ZONES.map((z) => [z.id, z.name]));
+
 type Session = Awaited<ReturnType<typeof fetchRecentSessions>>[number];
 
 type Step = "select" | "rate" | "zones" | "done";
@@ -137,7 +139,7 @@ export default function FollowUpPage() {
                     <p className="text-sm font-medium text-gray-900">Age {patient?.age ?? "—"} · {date}</p>
                     <div className="flex flex-wrap gap-1 mt-1">
                       {zones.map((z) => (
-                        <span key={z} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{z.replace(/_/g, " ")}</span>
+                        <span key={z} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{zoneNameMap[z] ?? z.replace(/_/g, " ")}</span>
                       ))}
                       {(s.selected_zone_ids as string[]).length > 3 && (
                         <span className="text-xs text-gray-400">+{(s.selected_zone_ids as string[]).length - 3}</span>
@@ -311,7 +313,6 @@ export default function FollowUpPage() {
             </div>
             <div className="flex gap-3">
               <Link href="/follow-up"
-                onClick={() => { setStep("select"); setSelectedSession(null); setOverallRating(null); setZoneOutcomes({}); setClinicianNotes(""); }}
                 className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors">
                 Another Follow-up
               </Link>

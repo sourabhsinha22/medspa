@@ -8,6 +8,7 @@ import ZoneOverlay, { ZoneAnalysisCache } from "@/components/ZoneOverlay";
 import ZonePanel from "@/components/ZonePanel";
 import ConsentScreen from "@/components/ConsentScreen";
 import { IntakeAnswers } from "@/lib/scoring";
+import { INJECTION_ZONES } from "@/lib/zones";
 import { ZoneScore, detectAsymmetry, AsymmetryReport } from "@/lib/scoring";
 import { createPatient, uploadPhoto, createSession, fetchLastSession, getPhotoUrl, OverrideReason } from "@/lib/db";
 import { exportTreatmentPDF } from "@/lib/pdf";
@@ -281,7 +282,18 @@ export default function Home() {
                     {showHistorical ? "Hide" : "Compare"} Previous
                   </button>
                 )}
-                <button onClick={() => setStep("capture")} className="text-sm text-gray-400 hover:text-gray-600">
+                <button
+                  onClick={() => {
+                    setStep("capture");
+                    setScores([]);
+                    setSelectedZoneIds([]);
+                    setAiRecommendedIds([]);
+                    setOverrideReasons({});
+                    setAnalysisCache(null);
+                    setAnnotatedDataUrl(null);
+                  }}
+                  className="text-sm text-gray-400 hover:text-gray-600"
+                >
                   Retake
                 </button>
               </div>
@@ -310,7 +322,7 @@ export default function Home() {
                     <div className="flex flex-wrap gap-1 mb-2">
                       {previousSession.selected_zone_ids.map((z) => (
                         <span key={z} className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
-                          {z.replace(/_/g, " ")}
+                          {INJECTION_ZONES.find((iz) => iz.id === z)?.name ?? z.replace(/_/g, " ")}
                         </span>
                       ))}
                     </div>
@@ -369,7 +381,11 @@ export default function Home() {
         {/* Step 4: Consent */}
         {step === "consent" && (
           <div className="flex items-center justify-center min-h-[80vh]">
-            <ConsentScreen selectedZoneCount={selectedZoneIds.length} onConsent={handleConsent} />
+            <ConsentScreen
+              selectedZoneCount={selectedZoneIds.length}
+              selectedZoneNames={selectedZoneIds.map((id) => INJECTION_ZONES.find((z) => z.id === id)?.name ?? id)}
+              onConsent={handleConsent}
+            />
           </div>
         )}
 

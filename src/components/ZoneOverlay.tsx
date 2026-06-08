@@ -243,10 +243,10 @@ export default function ZoneOverlay({
           className="w-full rounded-2xl shadow-lg"
           style={{ maxHeight: "65vh", objectFit: "contain" }}
         />
-        {/* Head pose indicator */}
-        {headPose && (
-          <div className="absolute top-2 right-2 bg-black/50 rounded-lg px-2 py-1 text-xs text-white/80 font-mono">
-            Y:{headPose.yaw}° P:{headPose.pitch}° R:{headPose.roll}°
+        {/* Head pose indicator — only shown when angle is problematic */}
+        {headPose && !headPose.isAcceptable && (
+          <div className="absolute top-2 right-2 bg-amber-500/80 rounded-lg px-2 py-1 text-xs text-white font-medium">
+            Head angle off
           </div>
         )}
       </div>
