@@ -42,9 +42,10 @@ export default function ZonePanel({
   asymmetry = [],
   confidences = [],
 }: ZonePanelProps) {
-  const recommended = scores.filter((s) => s.status === "recommend");
-  const suggested = scores.filter((s) => s.status === "suggest");
-  const rest = scores.filter((s) => s.status === "none");
+  const byScore = (a: ZoneScore, b: ZoneScore) => b.score - a.score;
+  const recommended = scores.filter((s) => s.status === "recommend").sort(byScore);
+  const suggested = scores.filter((s) => s.status === "suggest").sort(byScore);
+  const rest = scores.filter((s) => s.status === "none").sort(byScore);
   const significantAsymmetry = asymmetry.filter((a) => a.delta > 15 && a.dominantSide !== "balanced");
   const confMap = Object.fromEntries(confidences.map((c) => [c.zoneId, c]));
 
