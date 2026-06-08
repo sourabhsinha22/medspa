@@ -118,6 +118,15 @@ export default function FollowUpPage() {
               </div>
             )}
 
+            {!loading && sessions.length === 0 && (
+              <div className="text-center py-16">
+                <p className="text-gray-400">No sessions to follow up on yet.</p>
+                <a href="/" className="text-rose-600 text-sm mt-2 inline-block hover:underline">
+                  Start a new patient →
+                </a>
+              </div>
+            )}
+
             {!loading && sessions.map((s) => {
               const patient = s.patients as unknown as { age: number } | null;
               const date = new Date(s.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
