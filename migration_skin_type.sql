@@ -1,0 +1,1 @@
+ALTER TABLE patients ADD COLUMN IF NOT EXISTS skin_type integer DEFAULT 2;
