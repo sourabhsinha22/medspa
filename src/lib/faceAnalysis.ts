@@ -48,10 +48,6 @@ export function detectHeadPose(lm: { x: number; y: number; z?: number }[]): Head
   const nosePitchOffset = (noseTip.y - eyeMidY) / (faceHeight || 0.1);
   const pitch = (nosePitchOffset - 0.45) * 100; // rough degrees, 0 = straight
 
-  // Mouth symmetry check (additional yaw signal)
-  const mouthMidX = (leftMouth.x + rightMouth.x) / 2;
-  const mouthOffset = Math.abs(mouthMidX - faceMidX) / (faceWidth || 0.1);
-
   const warnings: string[] = [];
   if (Math.abs(yaw) > 15) warnings.push(`Head turned ${yaw > 0 ? "right" : "left"} — face the camera directly`);
   if (Math.abs(pitch) > 15) warnings.push(`Head tilted ${pitch > 0 ? "down" : "up"} — look straight ahead`);

@@ -317,10 +317,26 @@ export function scoreAllZones(
     const textureScore = canvas ? textureScoreForZone(canvas, lm, zone) : 0;
     const intakeScore = scoreIntake(intake, zone);
 
+    // When geometry can't contribute (anatomically fixed zones return 0),
+    // redistribute its weight proportionally to texture and intake so the
+    // score still reaches meaningful thresholds.
+    let w = { ...weights };
+    if (geometryScore === 0) {
+      const remaining = w.texture + w.intake;
+      if (remaining > 0) {
+        const boost = w.geometry / remaining;
+        w = {
+          geometry: 0,
+          texture: w.texture * (1 + boost),
+          intake: w.intake * (1 + boost),
+        };
+      }
+    }
+
     const score =
-      geometryScore * weights.geometry +
-      textureScore * weights.texture +
-      intakeScore * weights.intake;
+      geometryScore * w.geometry +
+      textureScore * w.texture +
+      intakeScore * w.intake;
 
     const status =
       score >= 68 ? "recommend" : score >= 38 ? "suggest" : "none";
